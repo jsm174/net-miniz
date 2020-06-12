@@ -1,0 +1,96 @@
+name: NetMiniZ Native NuGet packages
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+    netminiz-native-win-x64:
+      runs-on: windows-latest
+      defaults:
+        run:
+          working-directory: libminiz
+      steps:
+        - uses: actions/checkout@v2
+        - uses: nuget/setup-nuget@v1
+        - name: Build
+          run: |
+            cmake -G "Visual Studio 16 2019" -A x64 -B build
+            cmake --build build --config Release
+            nuget pack ../native/NetMiniZ.Native.win-x64.nuspec -OutputDirectory build/nupkg
+        - uses: actions/upload-artifact@v2
+          with:
+            name: libminiz-win-x64
+            path: libminiz/build/lib/
+        - uses: actions/upload-artifact@v2
+          with: 
+            name: NetMiniZ.Native.nuget
+            path: libminiz/build/nupkg/
+            
+    netminiz-native-win-x86:
+      runs-on: windows-latest
+      defaults:
+        run:
+          working-directory: libminiz
+      steps:
+        - uses: actions/checkout@v2
+        - uses: nuget/setup-nuget@v1
+        - name: Build
+          run: |
+            cmake -G "Visual Studio 16 2019" -A Win32 -B build
+            cmake --build build --config Release
+            nuget pack ../native/NetMiniZ.Native.win-x86.nuspec -OutputDirectory build/nupkg
+        - uses: actions/upload-artifact@v2
+          with:
+            name: libminiz-win-x86
+            path: libminiz/build/lib/
+        - uses: actions/upload-artifact@v2
+          with: 
+            name: NetMiniZ.Native.nuget
+            path: libminiz/build/nupkg/
+          
+    netminiz-native-osx-x64:
+        runs-on: macos-latest
+        defaults:
+          run:
+            working-directory: libminiz
+        steps:
+        - uses: actions/checkout@v2
+        - uses: nuget/setup-nuget@v1
+        - name: Build
+          run: |
+            cmake -B build
+            cmake --build build
+            nuget pack ../native/NetMiniZ.Native.osx-x64.nuspec -OutputDirectory build/nupkg
+        - uses: actions/upload-artifact@v2
+          with:
+            name: libminiz-osx-x64
+            path: libminiz/build/lib/
+        - uses: actions/upload-artifact@v2
+          with: 
+            name: NetMiniZ.Native.nuget
+            path: libminiz/build/nupkg/
+        
+    netminiz-native-linux-x64:
+        runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: libminiz
+        steps:
+        - uses: actions/checkout@v2
+        - uses: nuget/setup-nuget@v1
+        - name: Build
+          run: |
+            cmake -B build
+            cmake --build build
+            nuget pack ../native/NetMiniZ.Native.linux-x64.nuspec -OutputDirectory build/nupkg
+        - uses: actions/upload-artifact@v2
+          with:
+            name: libminiz-linux-x64
+            path: libminiz/build/lib/
+        - uses: actions/upload-artifact@v2
+          with: 
+            name: NetMiniZ.Native.nuget
+            path: libminiz/build/nupkg/

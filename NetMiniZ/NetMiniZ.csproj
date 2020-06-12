@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageVersion>1.0.1</PackageVersion>
+    <Authors>Jason Millard</Authors>
+    <Copyright>Copyright 2020 © Jason Millard All rights reserved</Copyright>
+    <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
+    <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Interop\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../LICENSE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

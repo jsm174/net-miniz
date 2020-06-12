@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata>
+
+    <!-- package -->
+    <id>NetMiniZ.Native.win-x64</id>
+    <title>NetMiniZ - Native binaries for Win-x64</title>
+    <version>1.0.0</version>
+    <description>This package complements the NetMiniZ package and contains native binaries of libminiz for Win-x64</description>
+    <summary>Native binaries of libminiz for Win-x64</summary>
+    <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>
+    <repository type="git" url="https://github.com/jsm174/net-miniz" />
+    <tags>libminiz binaries</tags>
+
+    <!-- legal -->
+    <license type="expression">MIT</license>
+    <authors>Jason Millard</authors>
+    <owners>Jason Millard</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Jason Millard</copyright>
+
+  </metadata>
+  <files>
+
+    <!-- Include libminiz Win x64 binaries -->
+    <file src="..\libminiz\build\lib\libminiz-*.dll" target="runtimes/win-x64/native" />
+
+    <!-- Include the license -->
+    <file src="..\libminiz\build\lib\LICENSE" />
+
+    <!-- Include the license -->
+    <file src="..\libminiz\build\lib\ChangeLog.md" />
+
+  </files>
+</package>
