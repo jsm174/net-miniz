@@ -3,12 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>1.0.1</PackageVersion>
     <Authors>Jason Millard</Authors>
     <Copyright>Copyright 2020 © Jason Millard All rights reserved</Copyright>
-    <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
+    <Title>NetMiniZ</Title>
     <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
+    <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageId>NetMiniZ</PackageId>
+    <PackageVersion>1.0.2</PackageVersion>
+    <AssemblyVersion>$(PackageVersion)</AssemblyVersion>
+    <AssemblyFileVersion>$(PackageVersion)</AssemblyFileVersion>
+    <InformationalVersion>$(PackageVersion)</InformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
