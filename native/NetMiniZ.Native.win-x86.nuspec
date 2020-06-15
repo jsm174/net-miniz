@@ -4,10 +4,10 @@
 
     <!-- package -->
     <id>NetMiniZ.Native.win-x86</id>
-    <title>NetMiniZ - Native binaries for Win-x86</title>
-    <version>1.0.0</version>
-    <description>This package complements the NetMiniZ package and contains native binaries of libminiz for Win-x86</description>
-    <summary>Native binaries of libminiz for Win-x86</summary>
+    <title>NetMiniZ - Native binaries for win-x86</title>
+    <version>1.0.2</version>
+    <description>This package complements the NetMiniZ package and contains native binaries of libminiz for win-x86</description>
+    <summary>Native binaries of libminiz for win-x86</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>
     <repository type="git" url="https://github.com/jsm174/net-miniz" />
     <tags>libminiz binaries</tags>
@@ -19,8 +19,15 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Jason Millard</copyright>
 
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+
   </metadata>
   <files>
+
+    <!-- The build bits -->
+    <file src="targets\NetMiniZ.Native.win-x86.targets" target="build/netstandard2.0" />
 
     <!-- Include libminiz Win x86 binaries -->
     <file src="..\libminiz\build\lib\libminiz-*.dll" target="runtimes/win-x86/native" />
@@ -30,6 +37,9 @@
 
     <!-- Include the license -->
     <file src="..\libminiz\build\lib\ChangeLog.md" />
+
+    <!-- A dummy reference which prevents NuGet from adding any compilation references when this package is imported -->
+    <file src="_._" target="lib/netstandard2.0" />
 
   </files>
 </package>
