@@ -5,7 +5,7 @@
     <!-- package -->
     <id>NetMiniZ.Native.win-x86</id>
     <title>NetMiniZ - Native binaries for win-x86</title>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <description>This package complements the NetMiniZ package and contains native binaries of libminiz for win-x86</description>
     <summary>Native binaries of libminiz for win-x86</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>

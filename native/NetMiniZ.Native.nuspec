@@ -5,7 +5,7 @@
     <!-- package -->
     <id>NetMiniZ.Native</id>
     <title>NetMiniZ - Native binaries</title>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <description>This package complements the NetMiniZ package and contains native binaries of libminiz</description>
     <summary>Native binaries of libminiz</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>
@@ -21,11 +21,10 @@
 
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="NetMiniZ.Native.linux-musl-x64" version="1.0.3" include="native, build" />
-        <dependency id="NetMiniZ.Native.linux-x64" version="1.0.3" include="native, build" />
-        <dependency id="NetMiniZ.Native.osx-x64" version="1.0.3" include="native, build" />
-        <dependency id="NetMiniZ.Native.win-x64" version="1.0.3" include="native, build" />
-        <dependency id="NetMiniZ.Native.win-x86" version="1.0.3" include="native, build" />
+        <dependency id="NetMiniZ.Native.linux-x64" version="1.0.4" include="native, build" />
+        <dependency id="NetMiniZ.Native.osx-x64" version="1.0.4" include="native, build" />
+        <dependency id="NetMiniZ.Native.win-x64" version="1.0.4" include="native, build" />
+        <dependency id="NetMiniZ.Native.win-x86" version="1.0.4" include="native, build" />
       </group>
     </dependencies>
 
