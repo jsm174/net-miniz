@@ -1,26 +1,23 @@
 name: NetMiniZ NuGet package
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
-    netminiz:
-      runs-on: windows-latest
-      defaults:
-        run:
-          working-directory: NetMiniZ
-      steps:
-        - uses: actions/checkout@v2
-        - name: Build
-          run: dotnet pack -c Release -o build/nupkg 
-        - uses: actions/upload-artifact@v2
-          with:
-            name: NetMiniZ
-            path: NetMiniZ/bin/Release/netstandard2.0/NetMiniZ.dll
-        - uses: actions/upload-artifact@v2
-          with: 
-            name: NetMiniZ.nuget
-            path: NetMiniZ/build/nupkg/
+
+  netminiz:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: NetMiniZ
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: dotnet pack -c Release -o build/nupkg 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: NetMiniZ
+          path: NetMiniZ/bin/Release/netstandard2.0/NetMiniZ.dll
+      - uses: actions/upload-artifact@v2
+        with: 
+          name: NetMiniZ.nuget
+          path: NetMiniZ/build/nupkg/
