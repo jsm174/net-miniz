@@ -3,11 +3,11 @@
   <metadata>
 
     <!-- package -->
-    <id>NetMiniZ.Native.linux-x64</id>
-    <title>NetMiniZ - Native binaries for linux-x64</title>
+    <id>NetMiniZ.Native</id>
+    <title>NetMiniZ - Native binaries</title>
     <version>1.0.3</version>
-    <description>This package complements the NetMiniZ package and contains native binaries of libminiz for linux-x64</description>
-    <summary>Native binaries of libminiz for linux-x64</summary>
+    <description>This package complements the NetMiniZ package and contains native binaries of libminiz</description>
+    <summary>Native binaries of libminiz</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>
     <repository type="git" url="https://github.com/jsm174/net-miniz" />
     <tags>libminiz binaries</tags>
@@ -20,23 +20,17 @@
     <copyright>Jason Millard</copyright>
 
     <dependencies>
-      <group targetFramework="netstandard2.0" />
+      <group targetFramework="netstandard2.0">
+        <dependency id="NetMiniZ.Native.linux-musl-x64" version="1.0.3" include="native, build" />
+        <dependency id="NetMiniZ.Native.linux-x64" version="1.0.3" include="native, build" />
+        <dependency id="NetMiniZ.Native.osx-x64" version="1.0.3" include="native, build" />
+        <dependency id="NetMiniZ.Native.win-x64" version="1.0.3" include="native, build" />
+        <dependency id="NetMiniZ.Native.win-x86" version="1.0.3" include="native, build" />
+      </group>
     </dependencies>
 
   </metadata>
   <files>
-
-    <!-- The build bits -->
-    <file src="targets/NetMiniZ.Native.linux-x64.targets" target="build/netstandard2.0" />
-
-    <!-- Include libminiz linux-x64 binaries -->
-    <file src="../libminiz/build/lib/libminiz.so.*" target="runtimes/linux-x64/native" />
-
-    <!-- Include the license -->
-    <file src="../libminiz/build/lib/LICENSE" />
-
-    <!-- Include the license -->
-    <file src="../libminiz/build/lib/ChangeLog.md" />
 
     <!-- A dummy reference which prevents NuGet from adding any compilation references when this package is imported -->
     <file src="_._" target="lib/netstandard2.0" />
