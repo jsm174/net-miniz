@@ -2,15 +2,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System;
 using System.Linq;
-using NetMiniZ;
 
-namespace Tests
+namespace NetMiniZ
 {
     [TestClass]
-    public class UtilsTest
+    public class Tests
     {
         [TestMethod]
-        [DeploymentItem("../../../../libminiz/build/lib")]
         public void CompressDecompress()
         {
             var utils = new NetMiniZUtils();

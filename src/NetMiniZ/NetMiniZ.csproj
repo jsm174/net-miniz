@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <Authors>Jason Millard</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackOnBuild>true</PackOnBuild>
+    <Copyright>Copyright 2020 © Jason Millard All rights reserved</Copyright>
+    <AssemblyName>NetMiniZ</AssemblyName>
+    <PackageId>NetMiniZ</PackageId>
+    <PackagePrereleaseIdentifier></PackagePrereleaseIdentifier>
+    <PackageVersion>$(AssemblyVersion)$(PackagePrereleaseIdentifier)</PackageVersion>
+    <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="../../deps/libminiz/win-x86/libminiz-2.1.0.dll">
+    <PackagePath>runtimes/win-x86/native/libminiz-2.1.0.dll</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="../../deps/libminiz/win-x64/libminiz-2.1.0.dll">
+     <PackagePath>runtimes/win-x64/native/libminiz-2.1.0.dll</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="../../deps/libminiz/linux-x64/libminiz.so.2.1.0">
+      <PackagePath>runtimes/linux-x64/native/libminiz.so.2.1.0</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="../../deps/libminiz/osx-x64/libminiz.2.1.0.dylib">
+      <PackagePath>runtimes/osx-x64/native/libminiz.2.1.0.dylib</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="build/net472/NetMiniZ.targets">
+      <PackagePath>build/net472/NetMiniZ.targets</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../LICENSE.txt">
+      <PackagePath></PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+</Project>
