@@ -1,23 +1,81 @@
-name: NetMiniZ NuGet package
+name: NetMiniZ 
 
 on: [push, pull_request]
 
 jobs:
 
-  netminiz:
+  netminiz-win-x64:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: NetMiniZ
+        working-directory: src
     steps:
       - uses: actions/checkout@v2
+      - uses: nuget/setup-nuget@v1
       - name: Build
-        run: dotnet pack -c Release -o build/nupkg 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: NetMiniZ
-          path: NetMiniZ/bin/Release/netstandard2.0/NetMiniZ.dll
-      - uses: actions/upload-artifact@v2
-        with: 
-          name: NetMiniZ.nuget
-          path: NetMiniZ/build/nupkg/
+        run: |
+           nuget restore
+           dotnet build -c Release 
+      - name: Build Contents
+        run: ls -lart NetMiniZ.Tests/bin/x64/Release/netcoreapp3.1
+        shell: bash
+      - name: Test
+        run: |
+           $HOME/.nuget/packages/microsoft.testplatform/16.7.0/tools/net451/Common7/IDE/Extensions/TestPlatform/vstest.console.exe NetMiniZ.Tests/bin/x64/Release/netcoreapp3.1/NetMiniZ.Tests.dll
+        shell: bash
+
+  netminiz-win-x86:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nuget/setup-nuget@v1
+      - name: Build
+        run: |
+           nuget restore
+           dotnet build -c Release -p:Platform=x86
+      - name: Build Contents
+        run: ls -lart NetMiniZ.Tests/bin/x86/Release/netcoreapp3.1
+        shell: bash
+      - name: Test
+        run: |
+           $HOME/.nuget/packages/microsoft.testplatform/16.7.0/tools/net451/Common7/IDE/Extensions/TestPlatform/vstest.console.exe NetMiniZ.Tests/bin/x86/Release/netcoreapp3.1/NetMiniZ.Tests.dll
+        shell: bash
+
+  netminiz-osx-x64:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nuget/setup-nuget@v1
+      - name: Build
+        run: |
+           nuget restore
+           msbuild /p:Configuration=Release
+      - name: Build Contents
+        run: ls -lart NetMiniZ.Tests/bin/x64/Release/netcoreapp3.1
+      - name: Test
+        run: |
+           mono $HOME/.nuget/packages/microsoft.testplatform/16.7.0/tools/net451/Common7/IDE/Extensions/TestPlatform/vstest.console.exe NetMiniZ.Tests/bin/x64/Release/netcoreapp3.1/NetMiniZ.Tests.dll
+
+  netminiz-linux-x64:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nuget/setup-nuget@v1
+      - name: Build
+        run: |
+           nuget restore
+           msbuild /p:Configuration=Release
+      - name: Build Contents
+        run: ls -lart NetMiniZ.Tests/bin/x64/Release/netcoreapp3.1
+      - name: Test
+        run: |
+           mono $HOME/.nuget/packages/microsoft.testplatform/16.7.0/tools/net451/Common7/IDE/Extensions/TestPlatform/vstest.console.exe NetMiniZ.Tests/bin/x64/Release/netcoreapp3.1/NetMiniZ.Tests.dll

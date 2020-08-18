@@ -1,0 +1,19 @@
+name: NetMiniZ NuGet
+
+on: [push, pull_request]
+
+jobs:
+
+  netminiz-nuget:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: dotnet pack -c Release -o ../build/nupkg 
+      - uses: actions/upload-artifact@v2
+        with: 
+          name: NetMiniZ.nuget
+          path: build/nupkg/
