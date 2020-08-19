@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
     <Authors>Jason Millard</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -14,14 +14,6 @@
     <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
   <ItemGroup>
     <Content Include="../../deps/libminiz/win-x86/libminiz-2.1.0.dll">
