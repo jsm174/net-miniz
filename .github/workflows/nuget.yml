@@ -1,0 +1,28 @@
+name: Nuget
+on:
+  workflow_run:
+    workflows: [ "Build" ]
+    branches: [ master ]
+    types:
+      - completed
+
+jobs:
+  Nuget:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          dotnet build -c Release /p:TargetOS=OSX
+          dotnet build -c Release /p:TargetOS=Linux
+          dotnet build -c Release /p:TargetOS=Windows
+      - name: Pack
+        run: |
+          dotnet pack -c Release -o nupkg --no-build
+      - name: Publish
+          dotnet push nupkg/*.nupkg -k ${{ secrets.NUGET_KEY }}
+      - uses: actions/upload-artifact@v2
+        with: 
+          name: NetMiniZ.nuget
+          path: nupkg/

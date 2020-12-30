@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetMiniZ
+﻿namespace NetMiniZ
 {
     public class DecompressException : BaseException
     {
@@ -12,7 +10,7 @@ namespace NetMiniZ
         {
             get
             {
-                return String.Format("Decompression routine {0} failed with error code {1}.", ComponentName, Status);
+                return string.Format("Decompression routine {0} failed with error code {1}.", ComponentName, Status);
             }
         }
     }

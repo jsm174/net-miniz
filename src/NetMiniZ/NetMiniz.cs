@@ -1,13 +1,12 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.IO;
-using NetMiniZ.Interop;
-
-namespace NetMiniZ
+﻿namespace NetMiniZ
 {
-    public unsafe class NetMiniZUtils
+    using System;
+    using System.IO;
+    using Internal;
+
+    unsafe public static class NetMiniZ
     {
-        private static uint[] s_tdefl_num_probes = new uint[11] { 0, 1, 6, 32, 16, 32, 128, 256, 512, 768, 1500 };
+        private static readonly uint[] s_tdefl_num_probes = new uint[11] { 0, 1, 6, 32, 16, 32, 128, 256, 512, 768, 1500 };
 
         // IN_BUF_SIZE is the size of the file read buffer.
         // IN_BUF_SIZE must be >= 1
@@ -38,25 +37,7 @@ namespace NetMiniZ
 
         private const int TINFL_STATUS_DONE = 0;
 
-        private static Libraries libraries = null;
-
-        static NetMiniZUtils()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                libraries = new WinLibraries();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                libraries = new OSXLibraries();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                libraries = new LinuxLibraries();
-            }
-        }
-
-        public void Compress(Stream inputStream, Stream outputStream, int compressionLevel)
+        public static void Compress(Stream inputStream, Stream outputStream, int compressionLevel)
         {
             if (compressionLevel < 0)
                 compressionLevel = 0;
@@ -69,9 +50,9 @@ namespace NetMiniZ
                 comp_flags |= TDEFL_FORCE_ALL_RAW_BLOCKS;
 
             // Initialize the low-level compressor.
-            void* g_deflator = stackalloc byte[libraries.tdefl_compressor_size()];
+            void* g_deflator = stackalloc byte[MiniZ.wrapper_tdefl_compressor_size()];
             {
-                int status = libraries.tdefl_init(g_deflator, null, null, comp_flags);
+                int status = MiniZ.wrapper_tdefl_init(g_deflator, null, null, comp_flags);
                 if (status != 0)
                     throw new CompressException("tdefl_init", status);
             }
@@ -106,7 +87,7 @@ namespace NetMiniZ
                     IntPtr out_bytes = new IntPtr(avail_out);
 
                     // Compress as much of the input as possible (or all of it) to the output buffer.
-                    int status = libraries.tdefl_compress(g_deflator, next_in, ref in_bytes, next_out, ref out_bytes,
+                    int status = MiniZ.wrapper_tdefl_compress(g_deflator, next_in, ref in_bytes, next_out, ref out_bytes,
                         flush ? TDEFL_FINISH : TDEFL_NO_FLUSH);
 
                     int in_bytes32 = in_bytes.ToInt32();
@@ -137,10 +118,10 @@ namespace NetMiniZ
             }
         }
 
-        public void Decompress(Stream inputStream, Stream outputStream)
+        public static void Decompress(Stream inputStream, Stream outputStream)
         {
             // Initialize decompressor
-            void* inflator = stackalloc byte[libraries.tinfl_decompressor_size()];
+            void* inflator = stackalloc byte[MiniZ.wrapper_tinfl_decompressor_size()];
             *((ulong*)(inflator)) = 0; //tinfl_init(inflator);
 
             // Initialize buffers
@@ -173,7 +154,7 @@ namespace NetMiniZ
                     IntPtr in_bytes = new IntPtr(avail_in);
                     IntPtr out_bytes = new IntPtr(avail_out);
 
-                    int status = libraries.tinfl_decompress(inflator, next_in, ref in_bytes, s_outbuf, next_out, ref out_bytes,
+                    int status = MiniZ.wrapper_tinfl_decompress(inflator, next_in, ref in_bytes, s_outbuf, next_out, ref out_bytes,
                         (flush ? 0 : TINFL_FLAG_HAS_MORE_INPUT) | TINFL_FLAG_PARSE_ZLIB_HEADER | TINFL_FLAG_COMPUTE_ADLER32);
 
                     int in_bytes32 = in_bytes.ToInt32();

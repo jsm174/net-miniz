@@ -11,15 +11,13 @@ namespace NetMiniZ
         [TestMethod]
         public void CompressDecompress()
         {
-            var utils = new NetMiniZUtils();
-
             using (var outStream = new FileStream("Test_compressed.png", FileMode.Create, FileAccess.Write, FileShare.Read))
                 using (var inStream = new FileStream("Test.png", FileMode.Open, FileAccess.Read, FileShare.Read))
-                    utils.Compress(inStream, outStream, 6);
+                    NetMiniZ.Compress(inStream, outStream, 6);
 
             using (var outStream = new FileStream("Test_decompressed.png", FileMode.Create, FileAccess.Write, FileShare.Read))
                 using (var inStream = new FileStream("Test_compressed.png", FileMode.Open, FileAccess.Read, FileShare.Read))
-                    utils.Decompress(inStream, outStream);
+                    NetMiniZ.Decompress(inStream, outStream);
 
             if (File.ReadAllBytes(new FileInfo("Test.png").FullName).SequenceEqual(
                  File.ReadAllBytes(new FileInfo("Test_decompressed.png").FullName)))
