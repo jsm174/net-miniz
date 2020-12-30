@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace NetMiniZ
+﻿namespace NetMiniZ
 {
+    using System;
+
     public abstract class BaseException : Exception
     {
         public string ComponentName { get; }

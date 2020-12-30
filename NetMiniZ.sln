@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMiniZ", "NetMiniZ\NetMiniZ.csproj", "{2ADBF037-6AE0-4C96-A72D-C584297A2ED1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMiniZ", "src\NetMiniZ\NetMiniZ.csproj", "{2ADBF037-6AE0-4C96-A72D-C584297A2ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMiniZ.Tests", "NetMiniZ.Tests\NetMiniZ.Tests.csproj", "{AA3D6003-23B3-43E0-A17B-9C6A112719E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMiniZ.Tests", "tests\NetMiniZ.Tests\NetMiniZ.Tests.csproj", "{AA3D6003-23B3-43E0-A17B-9C6A112719E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

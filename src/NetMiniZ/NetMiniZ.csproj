@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
-    <AssemblyVersion>1.1.2</AssemblyVersion>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
     <Authors>Jason Millard</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -14,33 +14,36 @@
     <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+    <DefaultItemExcludes>$(DefaultItemExcludes);Interop\Libraries.*.cs</DefaultItemExcludes>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
+
+  <!-- Give an initial value based on the operating system where it's currently running on. -->
+  <PropertyGroup Condition="'$(TargetOS)' == ''">
+    <TargetOS Condition="$([MSBuild]::IsOSPlatform('Linux'))">Linux</TargetOS>
+    <TargetOS Condition="$([MSBuild]::IsOSPlatform('OSX'))">OSX</TargetOS>
+    <TargetOS Condition="$([MSBuild]::IsOSPlatform('Windows'))">Windows</TargetOS>
+  </PropertyGroup>
+
+  <!-- Append target operating system to output path -->
+  <PropertyGroup>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\$(Platform)\$(Configuration)\$(TargetFramework)\$(TargetOS)</OutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Platform)\$(Configuration)\$(TargetFramework)\$(TargetOS)\</IntermediateOutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Content Include="../../deps/libminiz/win-x86/libminiz-2.1.0.dll">
-    <PackagePath>runtimes/win-x86/native/libminiz-2.1.0.dll</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="../../deps/libminiz/win-x64/libminiz-2.1.0.dll">
-     <PackagePath>runtimes/win-x64/native/libminiz-2.1.0.dll</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="../../deps/libminiz/linux-x64/libminiz.so.2.1.0">
-      <PackagePath>runtimes/linux-x64/native/libminiz.so.2.1.0</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="../../deps/libminiz/osx-x64/libminiz.2.1.0.dylib">
-      <PackagePath>runtimes/osx-x64/native/libminiz.2.1.0.dylib</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="build/net472/NetMiniZ.targets">
-      <PackagePath>build/net472/NetMiniZ.targets</PackagePath>
-      <Pack>true</Pack>
-    </Content>
+    <Compile Include="Interop\Libraries.$(TargetOS).cs">
+        <Link>Interop\Libraries.cs</Link>
+    </Compile>
   </ItemGroup>
+
+  <!-- Include .NET Standard packages on Linux and macOS -->
   <ItemGroup>
-    <None Include="../../LICENSE.txt">
+    <None Include="..\..\LICENSE.txt">
       <PackagePath></PackagePath>
       <Pack>true</Pack>
     </None>
   </ItemGroup>
+
 </Project>
