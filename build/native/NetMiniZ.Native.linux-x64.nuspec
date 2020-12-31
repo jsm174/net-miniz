@@ -4,7 +4,7 @@
     <!-- package -->
     <id>NetMiniZ.Native.linux-x64</id>
     <title>NetMiniZ - Native binaries for linux-x64</title>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <description>This package complements the NetMiniZ package and contains native binaries of libminiz for linux-x64</description>
     <summary>Native binaries of libminiz for linux-x64</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>

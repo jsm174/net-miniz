@@ -5,7 +5,7 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
-    <AssemblyVersion>1.2.1</AssemblyVersion>
+    <AssemblyVersion>1.2.2</AssemblyVersion>
     <Authors>Jason Millard</Authors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackOnBuild>true</PackOnBuild>
