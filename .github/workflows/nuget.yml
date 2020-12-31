@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+env:
+  SECRET_PUBLISH: ${{ secrets.PUBLISH }}
+
 jobs:
   nuget:
     runs-on: ubuntu-latest
@@ -16,11 +19,11 @@ jobs:
         run: |
           dotnet build -c Release /p:TargetOS=OSX
           dotnet build -c Release /p:TargetOS=Linux
-          dotnet build -c Release /p:TargetOS=Windows
       - name: Pack
         run: |
-          dotnet pack -c Release -o nupkg --no-build
+          dotnet pack -c Release /p:TargetOS=Windows -o nupkg
       - name: Publish
+        if: ${{ env.SECRET_PUBLISH == 'true' }}
         run: |
           dotnet nuget push nupkg/*.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
       - uses: actions/upload-artifact@v2

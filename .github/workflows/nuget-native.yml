@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+env:
+  SECRET_PUBLISH: ${{ secrets.PUBLISH }}
+
 jobs:
   nuget-native-win-x64:
     runs-on: windows-latest
@@ -22,6 +25,7 @@ jobs:
         run: |
           nuget pack build/native/NetMiniZ.Native.win-x64.nuspec -OutputDirectory nupkg
       - name: Publish
+        if: ${{ env.SECRET_PUBLISH == 'true' }}
         run: |
           nuget push nupkg/*.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
         shell: bash
@@ -45,6 +49,7 @@ jobs:
         run: |
           nuget pack build/native/NetMiniZ.Native.win-x86.nuspec -OutputDirectory nupkg
       - name: Publish
+        if: ${{ env.SECRET_PUBLISH == 'true' }}
         run: |
           nuget push nupkg/*.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
         shell: bash
@@ -68,6 +73,7 @@ jobs:
         run: |
           nuget pack build/native/NetMiniZ.Native.osx-x64.nuspec -OutputDirectory nupkg
       - name: Publish
+        if: ${{ env.SECRET_PUBLISH == 'true' }}
         run: |
           nuget push nupkg/*.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
       - uses: actions/upload-artifact@v2
@@ -90,6 +96,7 @@ jobs:
         run: |
           nuget pack build/native/NetMiniZ.Native.linux-x64.nuspec -OutputDirectory nupkg
       - name: Publish
+        if: ${{ env.SECRET_PUBLISH == 'true' }}
         run: |
           nuget push nupkg/*.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
       - uses: actions/upload-artifact@v2
@@ -107,6 +114,7 @@ jobs:
         run: |
           nuget pack build/native/NetMiniZ.Native.nuspec -OutputDirectory nupkg
       - name: Publish
+        if: ${{ env.SECRET_PUBLISH == 'true' }}
         run: |
           nuget push nupkg/*.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
       - uses: actions/upload-artifact@v2
