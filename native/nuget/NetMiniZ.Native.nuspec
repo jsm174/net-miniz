@@ -4,7 +4,7 @@
     <!-- package -->
     <id>NetMiniZ.Native</id>
     <title>NetMiniZ - Native binaries</title>
-    <version>1.2.2</version>
+    <version>__VERSION__</version>
     <description>This package complements the NetMiniZ package and contains native binaries of libminiz</description>
     <summary>Native binaries of libminiz</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>
@@ -13,15 +13,16 @@
     <!-- legal -->
     <license type="expression">MIT</license>
     <authors>Jason Millard</authors>
-    <owners>Jason Millard</owners>
+    <owners>NetMiniZ development team and contributors</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Jason Millard</copyright>
+    <copyright>NetMiniZ development team and contributors</copyright>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="NetMiniZ.Native.linux-x64" version="1.2.2" include="native" />
-        <dependency id="NetMiniZ.Native.osx-x64" version="1.2.2" include="native" />
-        <dependency id="NetMiniZ.Native.win-x64" version="1.2.2" include="native" />
-        <dependency id="NetMiniZ.Native.win-x86" version="1.2.2" include="native" />
+        <dependency id="NetMiniZ.Native.win-x64" version="__VERSION__" include="native" />
+        <dependency id="NetMiniZ.Native.win-x86" version="__VERSION__" include="native" />
+        <dependency id="NetMiniZ.Native.osx-x64" version="__VERSION__" include="native" />
+        <dependency id="NetMiniZ.Native.osx-arm64" version="__VERSION__" include="native" />
+        <dependency id="NetMiniZ.Native.linux-x64" version="__VERSION__" include="native" />
       </group>
     </dependencies>
   </metadata>

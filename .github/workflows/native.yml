@@ -1,0 +1,137 @@
+name: Native
+on:
+  push:
+    paths:
+      - 'native/**'
+      - '.github/workflows/native.yml'
+  pull_request:
+    paths:
+      - 'native/**'
+      - '.github/workflows/native.yml'
+
+env:
+  NUGET_VERSION: 1.3.0
+  MINIZ_VERSION: 2.2.0
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.version.outputs.semver }}
+      minizver: ${{ steps.version.outputs.minizver }}
+      exists: ${{ steps.version.outputs.exists }}
+    steps:
+      - id: version
+        run: |
+          SEMVER="${{ env.NUGET_VERSION }}"
+          MINIZVER="${{ env.MINIZ_VERSION }}"
+          EXISTS=$(if [[ $(curl https://api.nuget.org/v3-flatcontainer/netminiz.native/index.json | grep \"${SEMVER}\") ]]; then echo "true"; else echo "false"; fi)
+          echo "::set-output name=semver::${SEMVER}"
+          echo "::set-output name=minizver::${MINIZ_VERSION}"
+          echo "::set-output name=exists::${EXISTS}"
+
+  build:
+    name: Build libminiz-${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    needs: [ version ]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: win-x64
+            platform-name: x64
+            libminiz: "libminiz-${{ needs.version.outputs.minizver }}.dll"
+          - os: windows-latest
+            platform: win-x86
+            platform-name: Win32
+            libminiz: "libminiz-${{ needs.version.outputs.minizver }}.dll"
+          - os: windows-latest
+            platform: win-arm64
+            platform-name: ARM64
+            libminiz: "libminiz-${{ needs.version.outputs.minizver }}.dll"
+          - os: macos-latest
+            platform: osx-x64
+            libminiz: "libminiz.${{ needs.version.outputs.minizver }}.dylib"
+            extra-flags: "-DCMAKE_OSX_ARCHITECTURES=x86_64"
+          - os: macos-latest
+            platform: osx-arm64
+            libminiz: "libminiz.${{ needs.version.outputs.minizver }}.dylib"
+            extra-flags: "-DCMAKE_OSX_ARCHITECTURES=arm64"
+          - os: ubuntu-18.04
+            platform: linux-x64
+            libminiz: "libminiz.so.${{ needs.version.outputs.minizver }}"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build libminiz-${{ matrix.platform }}
+        run: |
+          cd native/libminiz
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            cmake -G "Visual Studio 16 2019" ${{ matrix.extra-flags }} -A ${{ matrix.platform-name }} -B build
+            cmake --build build --config Release
+          else
+            cmake -DCMAKE_BUILD_TYPE=Release ${{ matrix.extra-flags }} -B build
+            cmake --build build
+          fi
+      - run: |
+          ls -laRt . 
+          mkdir tmp
+          cp native/libminiz/build/${{ matrix.libminiz }} tmp
+          cp native/libminiz/build/ChangeLog.md tmp
+          cp native/libminiz/build/LICENSE tmp
+      - uses: actions/upload-artifact@v2
+        with:
+          name: libminiz-${{ needs.version.outputs.minizver }}-${{ matrix.platform }}
+          path: tmp
+
+  nuget:
+    runs-on: ubuntu-latest
+    needs: [ version, build ]
+    steps:
+      - uses: nuget/setup-nuget@v1
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          path: native/nuget
+      - name: Pack
+        run: |
+          cd native/nuget
+          mv libminiz-*-win-x64 libminiz-win-x64
+          mv libminiz-*-win-x86 libminiz-win-x86
+          mv libminiz-*-osx-x64 libminiz-osx-x64
+          mv libminiz-*-osx-arm64 libminiz-osx-arm64
+          mv libminiz-*-linux-x64 libminiz-linux-x64
+          sed -i 's/__VERSION__/${{ needs.version.outputs.semver }}/g' *.nuspec
+          nuget pack NetMiniZ.Native.win-x64.nuspec -OutputDirectory nupkg
+          nuget pack NetMiniZ.Native.win-x86.nuspec -OutputDirectory nupkg
+          nuget pack NetMiniZ.Native.osx-x64.nuspec -OutputDirectory nupkg
+          nuget pack NetMiniZ.Native.osx-arm64.nuspec -OutputDirectory nupkg
+          nuget pack NetMiniZ.Native.linux-x64.nuspec -OutputDirectory nupkg
+          nuget pack NetMiniZ.Native.nuspec -OutputDirectory nupkg
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nupkg
+          path: native/nuget/nupkg
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [ version, nuget ]
+    if: github.repository == 'jsm174/net-miniz' && github.ref == 'refs/heads/master' && github.event_name == 'push'
+    steps:
+      - uses: nuget/setup-nuget@v1
+      - uses: actions/download-artifact@v2
+        with:
+          name: nupkg
+      - name: Publish
+        if: needs.version.outputs.exists == 'false'
+        run: |
+          nuget push NetMiniZ.Native.${{ needs.version.outputs.semver }}.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
+          nuget push NetMiniZ.Native.win-x64.${{ needs.version.outputs.semver }}.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
+          nuget push NetMiniZ.Native.win-x86.${{ needs.version.outputs.semver }}.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
+          nuget push NetMiniZ.Native.osx-x64.${{ needs.version.outputs.semver }}.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
+          nuget push NetMiniZ.Native.osx-arm64.${{ needs.version.outputs.semver }}.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
+          nuget push NetMiniZ.Native.linux-x64.${{ needs.version.outputs.semver }}.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -src https://api.nuget.org/v3/index.json
