@@ -1,68 +1,56 @@
 name: Build
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+    - "native/**"
+    - ".github/workflows/native.yml"
+  pull_request:
+    paths-ignore:
+    - "native/**"
+    - ".github/workflows/native.yml"
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  build-win-x64:
-    runs-on: windows-latest
+  build:
+    name: Build ${{ matrix.rid }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+          - os: windows-latest
+            rid: win-x86
+          - os: macos-latest
+            rid: osx-x64
+          - os: macos-latest
+            rid: osx-arm64
+          - os: ubuntu-latest
+            rid: linux-x64
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
-      - uses: nuget/setup-nuget@v1
       - name: Build
         run: |
-          dotnet build src/NetMiniZ/NetMiniZ.csproj -c Release -r win-x64
+          cd src/NetMiniZ.Tests
+          dotnet build -c Release -r ${{ matrix.rid }}
       - name: Test
+        if: matrix.rid != 'osx-arm64'
         run: |
-          dotnet test -r win-x64
-        shell: bash
-
-  build-win-x86:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-      - uses: nuget/setup-nuget@v1
-      - name: Build
-        run: |
-          dotnet build src/NetMiniZ/NetMiniZ.csproj -c Release -r win-x86
-      - name: Test
-        run: |
-          dotnet test -r win-x86
-        shell: bash
-
-  build-osx-x64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-      - uses: nuget/setup-nuget@v1
-      - name: Force 3.1.x
-        run: |
-          echo "{ \"sdk\": { \"version\": \"3.1.0\", \"rollForward\": \"latestFeature\" } }" > global.json
-      - name: Build
-        run: |
-          dotnet build src/NetMiniZ/NetMiniZ.csproj -c Release -r osx-x64
-      - name: Test
-        run: |
-          dotnet test -r osx-x64
-
-  build-linux-x64:
+          cd src/NetMiniZ.Tests
+          dotnet test --runtime ${{ matrix.rid }}
+  dispatch:
     runs-on: ubuntu-latest
+    needs: [ build ]
+    if: github.repository == 'jsm174/net-miniz' && github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
+      - uses: peter-evans/repository-dispatch@v1
         with:
-          dotnet-version: '3.1.x'
-      - uses: nuget/setup-nuget@v1
-      - name: Build
-        run: |
-          dotnet build src/NetMiniZ/NetMiniZ.csproj -c Release -r linux-x64
-      - name: Test
-        run: |
-          dotnet test -r linux-x64 
+          token: ${{ secrets.GH_PAT }}
+          event-type: build-complete

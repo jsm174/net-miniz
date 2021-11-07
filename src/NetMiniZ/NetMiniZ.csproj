@@ -4,58 +4,41 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);Interop\Libraries.*.cs</DefaultItemExcludes>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Description>Cross platform version of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
-    <AssemblyVersion>1.2.2</AssemblyVersion>
+    <Description>Cross platform .NET Wrapper of Miniz based on MiniZ.Net by ActuallyaDeviloper. https://github.com/ActuallyaDeviloper/MiniZ.Net</Description>
     <Authors>Jason Millard</Authors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackOnBuild>true</PackOnBuild>
-    <Copyright>Copyright 2020 © Jason Millard All rights reserved</Copyright>
+    <Copyright>Copyright 2021</Copyright>
     <AssemblyName>NetMiniZ</AssemblyName>
+    <AssemblyVersion>1.3.0</AssemblyVersion>
     <PackageId>NetMiniZ</PackageId>
-    <PackagePrereleaseIdentifier></PackagePrereleaseIdentifier>
-    <PackageVersion>$(AssemblyVersion)$(PackagePrereleaseIdentifier)</PackageVersion>
+    <PackageVersion>1.3.0-preview.0</PackageVersion>
     <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
+    <InformationalVersion>$(AssemblyVersion)$(PackagePrereleaseIdentifier)</InformationalVersion>
   </PropertyGroup>
-
   <!-- Give an initial value based on the operating system where it's currently running on. -->
   <PropertyGroup Condition="'$(TargetOS)' == ''">
     <TargetOS Condition="$([MSBuild]::IsOSPlatform('Linux'))">Linux</TargetOS>
     <TargetOS Condition="$([MSBuild]::IsOSPlatform('OSX'))">OSX</TargetOS>
     <TargetOS Condition="$([MSBuild]::IsOSPlatform('Windows'))">Windows</TargetOS>
   </PropertyGroup>
-
   <!-- Append target operating system to output path -->
   <PropertyGroup>
     <OutputPath>$(MSBuildThisFileDirectory)bin\$(Platform)\$(Configuration)\$(TargetFramework)\$(TargetOS)</OutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Platform)\$(Configuration)\$(TargetFramework)\$(TargetOS)\</IntermediateOutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Interop\Libraries.$(TargetOS).cs">
         <Link>Interop\Libraries.cs</Link>
     </Compile>
   </ItemGroup>
-
   <!-- Include .NET Standard packages on Linux and macOS -->
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)bin\$(Platform)\$(Configuration)\netstandard2.0\Linux\NetMiniZ.dll">
-      <Pack>true</Pack>
-      <PackagePath>runtimes\linux\lib\netstandard2.0</PackagePath>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)bin\$(Platform)\$(Configuration)\netstandard2.0\OSX\NetMiniZ.dll">
-      <Pack>true</Pack>
-      <PackagePath>runtimes\osx\lib\netstandard2.0</PackagePath>
-    </None>
+    <None Include="$(MSBuildThisFileDirectory)bin\$(Platform)\$(Configuration)\netstandard2.0\Linux\NetMiniZ.dll" Pack="true" PackagePath="runtimes\linux\lib\netstandard2.0"/>
+    <None Include="$(MSBuildThisFileDirectory)bin\$(Platform)\$(Configuration)\netstandard2.0\OSX\NetMiniZ.dll" Pack="true" PackagePath="runtimes\osx\lib\netstandard2.0"/>
   </ItemGroup>
-
-  <!-- Include .NET Standard packages on Linux and macOS -->
   <ItemGroup>
-    <None Include="..\..\LICENSE.txt">
-      <PackagePath></PackagePath>
-      <Pack>true</Pack>
-    </None>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt"/>
   </ItemGroup>
-
 </Project>
