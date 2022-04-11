@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
   <metadata>
     <!-- package -->
-    <id>NetMiniZ.Native.win-x64</id>
-    <title>NetMiniZ - Native binaries for win-x64</title>
+    <id>NetMiniZ.Native.osx</id>
+    <title>NetMiniZ - Native binaries for osx (x64/arm64)</title>
     <version>__VERSION__</version>
-    <description>This package complements the NetMiniZ package and contains native binaries of libminiz for win-x64</description>
-    <summary>Native binaries of libminiz for win-x64</summary>
+    <description>This package complements the NetMiniZ package and contains native binaries of libminiz for osx</description>
+    <summary>Native binaries of libminiz for osx</summary>
     <projectUrl>https://github.com/jsm174/net-miniz</projectUrl>
     <repository type="git" url="https://github.com/jsm174/net-miniz" />
     <tags>libminiz binaries</tags>
@@ -22,9 +22,9 @@
   </metadata>
   <files>
     <!-- The build bits -->
-    <file src="targets\NetMiniZ.Native.win-x64.targets" target="build\netstandard2.1" />
-    <!-- Include libminiz win-x64 binaries -->
-    <file src="libminiz-win-x64\libminiz-*.dll" target="runtimes\win-x64\native" />
+    <file src="targets\NetMiniZ.Native.osx.targets" target="build\netstandard2.1" />
+    <!-- Include libminiz osx binaries -->
+    <file src="libminiz-osx\libminiz.*.dylib" target="runtimes\osx\native" />
     <!-- Include the license -->
     <file src="..\..\LICENSE.txt" />
     <!-- A dummy reference which prevents NuGet from adding any compilation references when this package is imported -->
