@@ -9,8 +9,7 @@ This NuGet package provides a .NET binding for [MiniZ](https://github.com/richge
 
 ## Supported Platforms
 
-- .NET Framework (4.5 and higher)
-- .NET Core (.NETStandard 2.0 and higher on Windows, Linux and macOS)
+- .NET Core (.NETStandard 2.1 and higher on Windows, Linux and macOS)
 - Mono
 
 ## Setup
@@ -23,6 +22,7 @@ The native wrapper is a different package and contains pre-compiled binaries of 
 | **Windows 32-bit**    | [![NetMiniZ.Native.win-x86-badge]][NetMiniZ.Native.win-x86-nuget]     |
 | **macOS x64**         | [![NetMiniZ.Native.osx-x64-badge]][NetMiniZ.Native.osx-x64-nuget]     |
 | **macOS arm64**       | [![NetMiniZ.Native.osx-arm64-badge]][NetMiniZ.Native.osx-arm64-nuget] |
+| **macOS (x64/arm64**) | [![NetMiniZ.Native.osx-badge]][NetMiniZ.Native.osx-nuget] |
 | **Linux x64**         | [![NetMiniZ.Native.linux-x64-badge]][NetMiniZ.Native.linux-x64-nuget] |
 
 [NetMiniZ.Native.win-x64-badge]: https://img.shields.io/nuget/vpre/NetMiniZ.Native.win-x64.svg
@@ -33,6 +33,8 @@ The native wrapper is a different package and contains pre-compiled binaries of 
 [NetMiniZ.Native.osx-x64-nuget]: https://www.nuget.org/packages/NetMiniZ.Native.osx-x64
 [NetMiniZ.Native.osx-arm64-badge]: https://img.shields.io/nuget/vpre/NetMiniZ.Native.osx-arm64.svg
 [NetMiniZ.Native.osx-arm64-nuget]: https://www.nuget.org/packages/NetMiniZ.Native.osx-arm64
+[NetMiniZ.Native.osx-badge]: https://img.shields.io/nuget/vpre/NetMiniZ.Native.osx.svg
+[NetMiniZ.Native.osx-nuget]: https://www.nuget.org/packages/NetMiniZ.Native.osx
 [NetMiniZ.Native.linux-x64-badge]: https://img.shields.io/nuget/vpre/NetMiniZ.Native.linux-x64.svg
 [NetMiniZ.Native.linux-x64-nuget]: https://www.nuget.org/packages/NetMiniZ.Native.linux-x64
 
