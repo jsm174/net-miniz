@@ -9,7 +9,7 @@ This NuGet package provides a .NET binding for [MiniZ](https://github.com/richge
 
 ## Supported Platforms
 
-- .NET Core (.NETStandard 2.1 and higher on Windows, Linux and macOS)
+- .NET Core (.NETStandard 2.0 and higher on Windows, Linux and macOS)
 - Mono
 
 ## Setup
