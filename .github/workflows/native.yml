@@ -10,8 +10,8 @@ on:
       - '.github/workflows/native.yml'
 
 env:
-  NUGET_VERSION: 1.4.0
-  MINIZ_VERSION: 2.2.0
+  NUGET_VERSION: 1.5.0
+  MINIZ_VERSION: 3.0.2
 
 defaults:
   run:
@@ -30,9 +30,9 @@ jobs:
           SEMVER="${{ env.NUGET_VERSION }}"
           MINIZVER="${{ env.MINIZ_VERSION }}"
           EXISTS=$(if [[ $(curl https://api.nuget.org/v3-flatcontainer/netminiz.native/index.json | grep \"${SEMVER}\") ]]; then echo "true"; else echo "false"; fi)
-          echo "::set-output name=semver::${SEMVER}"
-          echo "::set-output name=minizver::${MINIZ_VERSION}"
-          echo "::set-output name=exists::${EXISTS}"
+          echo "semver=${SEMVER}" >> $GITHUB_OUTPUT
+          echo "minizver=${MINIZ_VERSION}" >> $GITHUB_OUTPUT
+          echo "exists=${EXISTS}" >> $GITHUB_OUTPUT
 
   build:
     name: Build libminiz-${{ matrix.platform }}
