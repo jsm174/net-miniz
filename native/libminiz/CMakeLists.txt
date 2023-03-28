@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 include(FetchContent)
 
-set(PROJECT_VERSION "2.2.0")
+set(PROJECT_VERSION "3.0.2")
 
 project(miniz VERSION ${PROJECT_VERSION})
 
