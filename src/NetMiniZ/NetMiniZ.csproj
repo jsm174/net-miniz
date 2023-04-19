@@ -13,7 +13,7 @@
     <AssemblyName>NetMiniZ</AssemblyName>
     <AssemblyVersion>1.6.1</AssemblyVersion>
     <PackageId>NetMiniZ</PackageId>
-    <PackageVersion>1.6.1-preview.1</PackageVersion>
+    <PackageVersion>1.6.1-preview.2</PackageVersion>
     <PackageProjectUrl>https://github.com/jsm174/net-miniz</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <InformationalVersion>$(AssemblyVersion)$(PackagePrereleaseIdentifier)</InformationalVersion>
