@@ -33,12 +33,12 @@ extern "C" tinfl_status DLLEXPORT wrapper_tinfl_decompress(tinfl_decompressor *r
 	return tinfl_decompress(r, pIn_buf_next, pIn_buf_size, pOut_buf_start, pOut_buf_next, pOut_buf_size, decomp_flags);
 }
 
-extern "C" int wrapper_mz_compress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len, int level)
+extern "C" int DLLEXPORT wrapper_mz_compress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len, int level)
 {
 	return mz_compress2(pDest, pDest_len, pSource, source_len, level);
 }
 
-extern "C" int wrapper_mz_uncompress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len)
+extern "C" int DLLEXPORT wrapper_mz_uncompress(unsigned char *pDest, mz_ulong *pDest_len, const unsigned char *pSource, mz_ulong source_len)
 {
 	return mz_uncompress(pDest, pDest_len, pSource, source_len);
 }

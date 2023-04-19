@@ -10,7 +10,7 @@ on:
       - '.github/workflows/native.yml'
 
 env:
-  NUGET_VERSION: 1.6.0
+  NUGET_VERSION: 1.6.1
   MINIZ_VERSION: 3.0.2
 
 defaults:
