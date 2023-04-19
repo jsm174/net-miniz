@@ -10,7 +10,7 @@ on:
       - '.github/workflows/native.yml'
 
 env:
-  NUGET_VERSION: 1.5.1
+  NUGET_VERSION: 1.6.0
   MINIZ_VERSION: 3.0.2
 
 defaults:
@@ -62,7 +62,7 @@ jobs:
             platform: osx-arm64
             libminiz: "libminiz.${{ needs.version.outputs.minizver }}.dylib"
             extra-flags: "-DCMAKE_OSX_ARCHITECTURES=arm64"
-          - os: ubuntu-18.04
+          - os: ubuntu-latest
             platform: linux-x64
             libminiz: "libminiz.so.${{ needs.version.outputs.minizver }}"
     steps:
