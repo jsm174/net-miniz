@@ -20,5 +20,11 @@ namespace NetMiniZ.Internal
 
 		[DllImport(Libraries.MiniZ, CallingConvention = CallingConvention.Cdecl, SetLastError = false, EntryPoint = "wrapper_tinfl_decompress")]
 		internal static extern int wrapper_tinfl_decompress(void* r, void* pIn_buf_next, ref IntPtr pIn_buf_size, void* pOut_buf_start, void* pOut_buf_next, ref IntPtr pOut_buf_size, uint decomp_flags);
-	}
+
+		[DllImport(Libraries.MiniZ, CallingConvention = CallingConvention.Cdecl, SetLastError = false, EntryPoint = "wrapper_mz_compress")]
+		internal static extern int wrapper_mz_compress(byte[] pDest, ref IntPtr pDest_len, byte[] pSource, IntPtr source_len, int level);
+
+		[DllImport(Libraries.MiniZ, CallingConvention = CallingConvention.Cdecl, SetLastError = false, EntryPoint = "wrapper_mz_uncompress")]
+		internal static extern int wrapper_mz_uncompress(byte[] pDest, ref IntPtr pDest_len, byte[] pSource, IntPtr source_len);
+    }
 }

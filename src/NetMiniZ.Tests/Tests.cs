@@ -21,13 +21,27 @@ namespace NetMiniZ
 
 			if (File.ReadAllBytes(new FileInfo("Test.png").FullName).SequenceEqual(
 				 File.ReadAllBytes(new FileInfo("Test_decompressed.png").FullName)))
-			{
 				Console.WriteLine("Test_decompressed.png matches Test.png");
-			}
 			else
-			{
 				throw new Exception("Test_decompressed.png does not match Test.png");
-			}
+		}
+
+		[TestMethod]
+		public void MZCompressUncompress()
+		{
+			byte[] fileBytes = File.ReadAllBytes("Test.png");
+			NetMiniZ.MZCompress(fileBytes, out byte[] dest);
+			File.WriteAllBytes("Test_mz_compressed.png", dest);
+
+			fileBytes = File.ReadAllBytes("Test_mz_compressed.png");
+			NetMiniZ.MZUncompress(fileBytes, out dest);
+			File.WriteAllBytes("Test_mz_uncompressed.png", dest);
+
+			if (File.ReadAllBytes(new FileInfo("Test.png").FullName).SequenceEqual(
+				File.ReadAllBytes(new FileInfo("Test_mz_uncompressed.png").FullName)))
+				Console.WriteLine("Test_mz_uncompressed.png matches Test.png");
+			else
+				throw new Exception("Test_mz_uncompressed.png does not match Test.png");
 		}
 	}
 }

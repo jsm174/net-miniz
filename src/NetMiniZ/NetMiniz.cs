@@ -186,5 +186,78 @@ namespace NetMiniZ
 				} while (true);
 			}
 		}
+
+		public enum MZStatus
+		{
+			OK = 0,
+			STREAM_END = 1,
+			NEED_DICT = 2,
+			ERRNO = -1,
+			STREAM_ERROR = -2,
+			DATA_ERROR = -3,
+			MEM_ERROR = -4,
+			BUF_ERROR = -5,
+			VERSION_ERROR = -6,
+			PARAM_ERROR = -10000
+		}
+
+		public enum MZCompressionLevel
+		{
+			NO_COMPRESSION = 0,
+			BEST_SPEED = 1,
+			BEST_COMPRESSION = 9,
+			UBER_COMPRESSION = 10,
+			DEFAULT_LEVEL = 6,
+			DEFAULT_COMPRESSION = -1
+		}
+
+		public static int MZCompress(byte[] source, out byte[] dest, MZCompressionLevel level = MZCompressionLevel.DEFAULT_COMPRESSION)
+		{
+			int sourceLen = source.Length;
+			IntPtr sourceLenPtr = new IntPtr(sourceLen);
+
+			dest = new byte[source.Length];
+			int destLen = source.Length;
+			IntPtr destLenPtr = new IntPtr(destLen);
+
+			int result = MiniZ.wrapper_mz_compress(dest, ref destLenPtr, source, sourceLenPtr, (int)level);
+
+			if (result == 0)
+				Array.Resize(ref dest, destLenPtr.ToInt32());
+			else
+				dest = null;
+
+			return result;
+		}
+
+		public static int MZUncompress(byte[] source, out byte[] dest)
+		{
+			int sourceLen = source.Length;
+			IntPtr sourceLenPtr = new IntPtr(sourceLen);
+
+			int destLen = source.Length * 2;
+
+			int result;
+			do
+			{
+				IntPtr destLenPtr = new IntPtr(destLen);
+				dest = new byte[destLen];
+
+				result = MiniZ.wrapper_mz_uncompress(dest, ref destLenPtr, source, sourceLenPtr);
+
+				if (result == 0)
+				{
+					Array.Resize(ref dest, destLenPtr.ToInt32());
+					return result;
+				}
+				else if (result == (int)MZStatus.BUF_ERROR)
+					destLen *= 2;
+				else
+				{
+					dest = null;
+					return result;
+				}
+			} while (true);
+		}
 	}
 }
