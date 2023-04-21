@@ -216,18 +216,29 @@ namespace NetMiniZ
 			int sourceLen = source.Length;
 			IntPtr sourceLenPtr = new IntPtr(sourceLen);
 
-			dest = new byte[source.Length];
-			int destLen = source.Length;
-			IntPtr destLenPtr = new IntPtr(destLen);
+			int destLen = sourceLen;
 
-			int result = MiniZ.wrapper_mz_compress(dest, ref destLenPtr, source, sourceLenPtr, (int)level);
+			int result;
+			do
+			{
+				IntPtr destLenPtr = new IntPtr(destLen);
+				dest = new byte[destLen];
 
-			if (result == 0)
-				Array.Resize(ref dest, destLenPtr.ToInt32());
-			else
-				dest = null;
+				result = MiniZ.wrapper_mz_compress(dest, ref destLenPtr, source, sourceLenPtr, (int)level);
 
-			return result;
+				if (result == 0)
+				{
+					Array.Resize(ref dest, destLenPtr.ToInt32());
+					return result;
+				}
+				else if (result == (int)MZStatus.BUF_ERROR)
+					destLen *= 2;
+				else
+				{
+					dest = null;
+					return result;
+				}
+			} while (true);
 		}
 
 		public static int MZUncompress(byte[] source, out byte[] dest)
@@ -235,7 +246,7 @@ namespace NetMiniZ
 			int sourceLen = source.Length;
 			IntPtr sourceLenPtr = new IntPtr(sourceLen);
 
-			int destLen = source.Length * 2;
+			int destLen = sourceLen * 2;
 
 			int result;
 			do
