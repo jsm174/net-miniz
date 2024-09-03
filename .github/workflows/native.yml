@@ -93,7 +93,7 @@ jobs:
     needs: [ version, build ]
     name: Build libminiz-osx
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
       - run: |
           mkdir tmp
           cp libminiz-${{ needs.version.outputs.minizver }}-osx-x64/LICENSE tmp
@@ -111,7 +111,7 @@ jobs:
     steps:
       - uses: nuget/setup-nuget@v1
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           path: native/nuget
       - name: Pack
@@ -142,7 +142,7 @@ jobs:
     if: github.repository == 'jsm174/net-miniz' && github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - uses: nuget/setup-nuget@v1
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: nupkg
       - name: Publish
